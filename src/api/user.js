@@ -1,18 +1,26 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function verify(data) {
   return request({
-    url: '/user/login',
+    url: '/admin/verify',
     method: 'post',
     data
   })
 }
 
-export function getInfo(token) {
+export function login(data) {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    url: '/admin/admin/front/loginData.do',
+    method: 'post',
+    data
+  })
+}
+
+export function getInfo(data) {
+  return request({
+    url: '/admin/admin/front/userMenu.do',
+    method: 'post',
+    data
   })
 }
 

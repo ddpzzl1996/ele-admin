@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="refresh" content="600">
+    <title>echarts</title>  
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.3.0-rc.2/echarts-en.common.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="bootstrapTable.css">
+    <script src="bootstrapTable.js"></script>
+    <script src="bootCN.js"></script>
+</head>
+
+<body>
+    <!-- 头部 -->
+    <div class="hearder">
+        <div class="card1">
+            <div class="rkMoney">
+                入库总金额（单位：元）
+            </div>
+            <div class="moneyCount moneyS3">
+
+            </div>
+            <div class="moneyS1">
+                <!-- <div class="moneyS2">
+                    <span>周环比</span>
+                    <span class="moneyWeek"></span>
+                    <span class="moneyWeekCount"></span>
+                </div> -->
+                <div class="moneyS2">
+                    <span>日环比</span>
+                    <span class="moneyDay"></span>
+                    <span class="moneyDayCount"></span>
+                </div>
+            </div>
+            <div class="moneyS4">
+                <div>日均金额:</div>
+                <div class="dayAverage"></div>
+            </div>
+        </div>
+        <div class="card2">
+            <div>用户量</div>
+            <div class="userCount moneyS3">
+
+            </div>
+            <div id="zx1">
+
+            </div>
+            <div class="moneyS4">
+                <div>日活跃量:</div>
+                <div class="userDayCount"></div>
+            </div>
+        </div>
+        <div class="card3">
+            <div>订单数</div>
+            <div class="orderCount moneyS3">
+
+            </div>
+            <div id="tj1">
+
+            </div>
+            <div class="moneyS4">
+                <div>日订单数:</div>
+                <div class="orderDayCount"></div>
+            </div>
+        </div>
+        <div class="card4">
+            <div>入库重量（单位：kg）</div>
+            <div class="storageWeightCount moneyS3">
+
+            </div>
+            <div id="tj2">
+
+            </div>
+            <div class="moneyS4">
+                <div>日均入库:</div>
+                <div class="storageWeightDayCount"></div>
+            </div>
+        </div>
+    </div>
+    <div class="echarts-content">
+        <!-- 柱状图 -->
+        <div class="echarts-nav">
+            <div class="tab mt20">
+                <ul class="tab-nav">
+                    <li class="active1 cus">用户新增</li>
+                    <li class="cus">活跃量</li>
+                    <li class="cus">订单量</li>
+                    <li class="cus">金额</li>
+                    <li class="lastLi cus">重量</li>
+                </ul>
+            </div>
+            <div class="zoy mt20">
+                <ul class="zoy-nav">
+                    <li class="friLi active2 cus">周</li>
+                    <li class="lastLi2 cus">月</li>
+                </ul>
+            </div>
+            <div class="map mt20 cus">查看地图</div>
+        </div>
+        <div id="main"></div>
+    </div>
+    <div class="content">
+        <!-- 表格 -->
+        <div class="table-list">
+            <div class="table-title">
+                <div class="tips"></div>
+                <div class="title">仓库今日排名</div>
+            </div>
+            <div class="table-content">
+                <div class="moneyS2 moneyS6">
+                    <div class="rkl">
+                        <div>入库量：</div>
+                        <div class="moneyS2 money-card">
+                            <div class="storageWeightDayCount swcF"></div>
+                            <div class="moneyS2 money-card">
+                                <span class="moneyDayCount"></span>
+                                <span class="moneyDay mr50"></span>
+                            </div>
+                        </div>
+                        <div id="zx2">
+
+                        </div>
+                    </div>
+                    <div class="rkl mt20">
+                        <div>金额：</div>
+                        <div class="moneyS2 money-card">
+                            <div class="dayAverage1 swcF"></div>
+                            <div class="moneyS2 money-card">
+                                <span class="storageWeightDayRate1"></span>
+                                <span class="storageWeightDayRate mr50"></span>
+                            </div>
+                        </div>
+                        <div id="zx3">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="table-detail">
+                    <table id="table" data-locale='zh-CN'>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <!-- 环状图 -->
+        <div class="pie-data">
+            <div class="table-title">
+                <div class="tips"></div>
+                <div class="title">回收类别占比</div>
+            </div>
+            <div class="pie">
+                <ul class="pie-nav">
+                    <li class="friLi active2 cus">全部</li>
+                    <li class="defActive cus">今年</li>
+                    <li class="lastLi2 cus">本月</li>
+                </ul>
+            </div>
+            <!-- <div class="moneyS2">
+                <div class="moneyS3">总额：￥</div>
+                <div class="moneyCount moneyS3">
+
+                </div>
+            </div> -->
+            <div id="main1"></div>
+            <div class="total">
+                <div>总额：</div>
+                <div class="moneyCount1 moneyS3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<style>
+    html {
+        width: 100%;
+        font-size: calc(100vw/1920*100);
+    }
+    
+    body {
+        background: #f4f4f4;
+        font-size: .12rem;
+    }
+    
+    ul,
+    li {
+        padding: 0;
+        margin: 0;
+        list-style: none
+    }
+    
+    .tips {
+        width: .03rem;
+        height: .19rem;
+        background: #ffdd73;
+    }
+    
+    .total {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0.6rem;
+    }
+    
+    .total:nth-child(1) {
+        color: #3B3B3B;
+        font-size: 0.16rem;
+    }
+    
+    .total:nth-child(2) {
+        color: #3B3B3B;
+        font-size: 0.2rem;
+    }
+    
+    .swcF {
+        font-size: .24rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.85);
+        line-height: .33rem;
+        letter-spacing: .01rem;
+    }
+    
+    .pie-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .moneyDayCount,
+    .storageWeightDayRate1 {
+        margin-right: .14rem;
+    }
+    
+    .rkl {
+        width: 2.89rem;
+        height: 1.28rem;
+        justify-content: space-between;
+        border-radius: .08rem;
+        border: .01rem solid #efefef;
+        padding: .08rem .36rem;
+    }
+    
+    .table-content {
+        display: flex;
+        align-items: flex-start;
+        margin-left: .24rem;
+        margin-top: .2rem;
+    }
+    
+    .money-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .table-title {
+        display: flex;
+        align-items: center;
+        margin-left: .24rem;
+        margin-top: .14rem;
+    }
+    
+    #zx2,
+    #zx3 {
+        width: 2.17rem;
+        height: 0.47rem;
+    }
+    
+    .th-inner {
+        padding: 0 !important;
+    }
+    
+    #zx1,
+    #tj1,
+    #tj2 {
+        width: 2.25rem;
+        height: .36rem;
+    }
+    
+    .active1 {
+        background: rgba(255, 221, 115, 1) !important;
+        border-radius: 0px 0px 0px .03rem;
+    }
+    
+    .active2 {
+        background: #ffdd73;
+    }
+    
+    .lastLi {
+        border-radius: 0px 0px .03rem 0px;
+    }
+    
+    .rkMoney {
+        font-size: .14rem;
+        font-weight: 400;
+        color: #767676;
+        line-height: .2rem;
+    }
+    
+    .moneyS6 {
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 0 0 .2rem 0;
+    }
+    .cus{
+        cursor: pointer;
+    }
+    .mt20 {
+        margin-top: .2rem;
+    }
+    
+    .mr50 {
+        margin-right: .5rem;
+    }
+    
+    .moneyS1 {
+        justify-content: space-between;
+    }
+    
+    .jt1 {
+        width: 0.16rem;
+        height: 0.16rem;
+        margin-left: 0.06rem;
+    }
+    
+    #table {}
+    
+    .table-detail {
+        width: 7.82rem;
+        margin-left: .4rem;
+    }
+    
+    .moneyS3 {
+        font-size: .24rem;
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.85);
+        line-height: .33rem;
+        letter-spacing: 1px;
+    }
+    
+    .moneyS4 {
+        border-top: .01rem solid #f4f4f4;
+        padding-top: .2rem;
+        font-size: .14rem;
+        font-weight: 500;
+        color: #515151;
+        line-height: .2rem;
+        width: 2.21rem;
+        /* text-align: center; */
+        display: flex;
+        justify-content: center;
+    }
+    
+    .moneyS1,
+    .moneyS2,
+    .moneyS4 {
+        display: flex;
+        align-items: center;
+    }
+    
+    .moneyS2 {
+        font-size: .14rem;
+        font-weight: 400;
+        color: #696969;
+        line-height: .2rem;
+    }
+    /* 向上的箭头 */
+    
+    .arrow-top {
+        font-size: 0;
+        line-height: 0;
+        border-width: .1rem;
+        border-color: #37A9FF;
+        margin: 0 .08rem;
+        border-top-width: 0;
+        border-style: dashed;
+        border-bottom-style: solid;
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    /* 向下的箭头 */
+    
+    .arrow-bottom {
+        font-size: 0;
+        line-height: 0;
+        border-width: .1rem;
+        border-color: red;
+        border-bottom-width: 0;
+        border-style: dashed;
+        border-top-style: solid;
+        border-left-color: transparent;
+        border-right-color: transparent;
+    }
+    
+    .hearder {
+        /* width: 100%; */
+        margin: 0 .33rem;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .echarts-content {
+        margin: 0 .33rem;
+        height: 4.25rem;
+        background: #fff;
+    }
+    
+    .echarts-content:after {
+        content: "";
+        height: 0;
+        clear: both;
+        overflow: hidden;
+        display: block;
+        visibility: hidden;
+    }
+    
+    .bottom {
+        width: .2rem;
+        height: .2rem;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        /*兼容ie8-*/
+    }
+    
+    .bottom-arrow1,
+    .bottom-arrow2 {
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 5;
+        /*兼容ie8-*/
+        border-bottom: .1rem transparent dashed;
+        border-left: .1rem transparent dashed;
+        border-right: .1rem transparent dashed;
+        border-top: .1rem white solid;
+        overflow: hidden;
+    }
+    
+    .arrow-box {
+        width: .3rem;
+        height: .3rem;
+        margin: .2rem auto;
+        position: relative;
+    }
+    
+    .content {
+        height: 3.54rem;
+        margin: .33rem .33rem 0 .33rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .card1,
+    .card2,
+    .card3,
+    .card4 {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 3.83rem;
+        background: #fff;
+        height: 1.81rem;
+        margin: .34rem 0;
+        padding: .15rem;
+        box-sizing: border-box;
+    }
+    
+    .table-list {
+        width: 11.67rem;
+        height: 3.54rem;
+        /* height: 5.1rem; */
+        background: #fff;
+        /* margin-top: 24px; */
+    }
+    /* .table {
+        margin-left: .4rem;
+    } */
+    
+    .pie-data {
+        /* height: 5.1rem; */
+        /* width: 40%; */
+        width: 6.5rem;
+        height: 3.54rem;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        /* justify-content: center; */
+        /* align-items: center; */
+        /* margin-top: 24px; */
+    }
+    
+    .pie {
+        margin-top: .15rem;
+        margin-bottom: .2rem;
+    }
+    
+    .title {
+        padding-left: .05rem;
+        box-sizing: border-box;
+        width: 100%;
+        height: .25rem;
+        line-height: .25rem;
+        font-size: .18rem;
+        font-weight: 500;
+        color: #454545;
+    }
+    
+    .zoy-nav,
+    .pie-nav {
+        /* margin: 0 auto; */
+        display: flex;
+    }
+    
+    .zoy-nav li,
+    .pie-nav li {
+        width: 1rem;
+        height: .33rem;
+        text-align: center;
+        line-height: .33rem;
+    }
+    
+    .friLi {
+        border-radius: .05rem 0px 0px .05rem;
+        border: .01rem solid #ffe185;
+    }
+    
+    .tab li {
+        width: 1.8rem;
+    }
+    
+    .zoy {
+        /* width: 100%; */
+        background: #fff;
+        display: flex;
+        justify-content: center;
+    }
+    
+    #main {
+        margin-top: 0.15rem;
+        background: #fff;
+        width: 100%;
+        height: 3.5rem;
+    }
+    
+    #main1 {
+        width: 100%;
+        height: 1.92rem;
+    }
+    
+    .tab-nav {
+        /* width: 5rem; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .tab-nav li {
+        text-align: center;
+        width: 1.8rem;
+        height: .33rem;
+        font-size: .18rem;
+        font-weight: 400;
+        color: #3b3b3b;
+        line-height: .33rem;
+        background: #F5F5F5;
+    }
+    
+    .tab {
+        width: 9rem;
+    }
+    
+    .map {
+        width: 1.76rem;
+        height: .33rem;
+        line-height: .33rem;
+        text-align: center;
+        border-radius: .1rem;
+        background: #f4f4f4;
+    }
+    
+    .lastLi2 {
+        border-radius: 0px .05rem .05rem 0px;
+        border: .01rem solid #ffe185;
+    }
+    
+    .defActive {
+        border-top: .01rem solid #ffe185;
+        border-bottom: .01rem solid #ffe185;
+    }
+    
+    .echarts-nav {
+        background: #fff;
+        padding: 0 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+    /* .table tbody tr td {
+        vertical-align: middle;
+    } */
+</style>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    var myChart1 = echarts.init(document.getElementById('main1'));
+    var zx1 = echarts.init(document.getElementById('zx1'));
+    var tj1 = echarts.init(document.getElementById('tj1'));
+    var tj2 = echarts.init(document.getElementById('tj2'));
+    var zx2 = echarts.init(document.getElementById('zx2'));
+    var zx3 = echarts.init(document.getElementById('zx3'));
+    // 指定图表的配置项和数据
+    let option = {
+        legend: {},
+        tooltip: {},
+        xAxis: {
+            type: 'category',
+            data: []
+        },
+        yAxis: {
+            axisLine: {
+                show: false
+            },
+        },
+        series: [
+
+        ]
+    };
+    let option2 = {
+        xAxis: {
+            type: 'category',
+            axisTick: {
+                show: false //不显示坐标轴刻度线
+            },
+            axisLine: {
+                show: false, //不显示坐标轴线
+            },
+        },
+        legend: {
+            x: 'left',
+            y: 'top'
+        },
+        grid: {
+            top: '3%',
+            left: '3%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: {
+            min: 'dataMin',
+            type: 'value',
+            "axisLine": { //y轴
+                "show": false
+
+            },
+            "axisTick": { //y轴刻度线
+                "show": false
+            },
+            "splitLine": { //网格线
+                "show": false
+            },
+            axisLabel: {
+                show: false, //不显示坐标轴上的文字
+            },
+        },
+        series: [{
+            // data: [820, 932, 901, 934, 1290, 1330, 1320],
+            lineStyle: {
+                normal: {
+                    color: '#A254EB',
+                    width: 1,
+                }
+            },
+            type: 'line',
+            smooth: true,
+            showSymbol: false,
+            areaStyle: {
+                normal: {
+                    color: '#A254EB',
+
+                }
+            }
+        }]
+    };
+    let option3 = {
+        xAxis: {
+            type: 'category',
+            axisTick: {
+                show: false //不显示坐标轴刻度线
+            },
+            axisLine: {
+                show: false, //不显示坐标轴线
+            },
+        },
+        legend: {
+            x: 'left',
+            y: 'top'
+        },
+        grid: {
+            top: '3%',
+            left: '3%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: {
+            min: 'dataMin',
+            type: 'value',
+            "axisLine": { //y轴
+                "show": false
+
+            },
+            "axisTick": { //y轴刻度线
+                "show": false
+            },
+            "splitLine": { //网格线
+                "show": false
+            },
+            axisLabel: {
+                show: false, //不显示坐标轴上的文字
+            },
+        },
+        series: [{
+            // data: [820, 932, 901, 934, 1290, 1330, 1320],
+            lineStyle: {
+                normal: {
+                    color: '#A254EB',
+                    width: 1,
+                }
+            },
+            type: 'bar',
+            smooth: true,
+            showSymbol: false,
+            itemStyle: {
+                normal: {
+                    color: '#26A1FF'
+                }
+            }
+        }]
+    };
+    let option4 = {
+        xAxis: {
+            type: 'category',
+            axisTick: {
+                show: false //不显示坐标轴刻度线
+            },
+            axisLine: {
+                show: false, //不显示坐标轴线
+            },
+        },
+        legend: {
+            x: 'left',
+            y: 'top'
+        },
+        grid: {
+            top: '3%',
+            left: '3%',
+            right: '8%',
+            bottom: '3%',
+            containLabel: true
+        },
+        yAxis: {
+            min: 'dataMin',
+            type: 'value',
+            "axisLine": { //y轴
+                "show": false
+
+            },
+            "axisTick": { //y轴刻度线
+                "show": false
+            },
+            "splitLine": { //网格线
+                "show": false
+            },
+            axisLabel: {
+                show: false, //不显示坐标轴上的文字
+            },
+        },
+        series: [{
+            // data: [820, 932, 901, 934, 1290, 1330, 1320],
+            lineStyle: {
+                normal: {
+                    color: '#A254EB',
+                    width: 1,
+                }
+            },
+            type: 'bar',
+            smooth: true,
+            showSymbol: false,
+            itemStyle: {
+                normal: {
+                    color: '#82da26'
+                }
+            }
+        }]
+    };
+    let option5 = JSON.parse(JSON.stringify(option3))
+    option5.series[0].type = 'line'
+    option5.series[0].areaStyle = {
+        normal: {
+            color: '#CCEAFF',
+
+        }
+    }
+    option5.series[0].lineStyle = {
+        normal: {
+            color: '#1AA1FF',
+            width: 1,
+        }
+    }
+    let option6 = JSON.parse(JSON.stringify(option5))
+    option6.series[0].areaStyle = {
+        normal: {
+            color: '#CCF7F8',
+
+        }
+    }
+    option6.series[0].lineStyle = {
+        normal: {
+            color: '#34DDE5',
+            width: 1,
+        }
+    }
+    var option1 = {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b}: {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            // x: 'left',
+            type: 'scroll',
+            right: 100,
+            top: 0,
+            itemStyle: {
+                normal: {
+                    fontSize: 10
+
+                }
+            }
+        },
+        color: ['#5ba0f8', '#6cc8c9', '#76c77c', '#f3d358', '#de6c7d', '#8d65dd'],
+        series: [{
+            name: '回收物品',
+            type: 'pie',
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    borderColor: '#fff',
+                }
+            },
+            content: ['60%', '90%'],
+            radius: ['50%', '70%'],
+            center: ['20%', '40%'], // 饼状图位置
+            avoidLabelOverlap: false,
+            label: {
+                normal: {
+                    show: false,
+                    position: 'center',
+                },
+                emphasis: {
+                    show: true,
+                    textStyle: {
+                        fontSize: '10'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            data: []
+        }]
+    };
+
+ var domain ="https://app.cnxzx.com";
+    // jq入口函数
+    $(function() {
+        let tabIndex = 0
+        let zoyIndex = 0
+        let pieIndex = 0
+        select(1)
+        $('.tab ul li').on('click', function() {
+            $(this).addClass('active1').siblings().removeClass('active1')
+            tabIndex = $(this).index()
+            select(2)
+            console.log($(this).index())
+        })
+        $('.zoy ul li').on('click', function() {
+            $(this).addClass('active2').siblings().removeClass('active2')
+            zoyIndex = $(this).index()
+            select(2)
+            console.log($(this).index())
+        })
+        $('.pie-nav li').on('click', function() {
+            $(this).addClass('active2').siblings().removeClass('active2')
+            pieIndex = $(this).index()
+            select(3)
+        })
+        $('.map').on('click',function(){
+            window.location.href = "http://192.168.0.100/admin/admin/statis/customer/user/index.do";
+        })
+        function select(type) {
+            $.ajax({
+                type: 'post',
+                url: 'http://192.168.0.100/admin/admin/echarts/data',
+                dataType: "json",
+                data: {
+                    page: '1',
+                    limit: '10000'
+                },
+                success: function(res) {
+                    let topData = res.topdata
+                    let ffDay = res['15daydata']
+                    let userCount = [] //用户量数据列表
+                    let orderCount = [] // 订单数列表
+                    let rkMoney = [] // 入库重量列表
+                    let rkMoneyCount = []
+                    ffDay.forEach((item, index) => {
+                        userCount.push(item.userCount)
+                        orderCount.push(item.orderCount)
+                        rkMoney.push(item.storageWeightCount)
+                        rkMoneyCount.push(item.storageMoneyDayCount)
+                    })
+                    option2.series[0].data = userCount
+                    option3.series[0].data = orderCount
+                    option5.series[0].data = orderCount
+                    option4.series[0].data = rkMoney
+                    option6.series[0].data = rkMoneyCount
+                    zx1.setOption(option2)
+                    tj1.setOption(option3)
+                    tj2.setOption(option4)
+                    zx2.setOption(option5)
+                    zx3.setOption(option6)
+                    console.log(ffDay, '15天数据')
+                    // 入库总金额
+                    $('.moneyCount').html(topData.storageMoneyCount)
+					console.log(res.itemtypeMap.all);
+					console.log(statisticsData(res.itemtypeMap.all));
+                    $('.moneyCount1').html(statisticsData(res.itemtypeMap.all)+'元')
+					
+					// <!-- $('.moneyCount1').html(res.reclyMoney.toFixed(2)+'元'); -->
+                        // 周环比上升或者下降
+                    if (topData.storageMoneyWeekRate >= 0) {
+                        $('.moneyWeek').addClass('arrow-top')
+                    } else {
+                        $('.moneyWeek').addClass('arrow-bottom')
+                    }
+                    $('.moneyWeekCount').html((topData.storageMoneyWeekRate).toFixed(2) + '%')
+                        // 日环比上升或者下降
+                    if (topData.storageMoneyDayRate >= 0) {
+                        $('.moneyDay').addClass('arrow-top')
+                    } else {
+                        $('.moneyDay').addClass('arrow-bottom')
+                    }
+                    // 入库日环比
+                    if (topData.storageWeightDayRate >= 0) {
+                        $('.storageWeightDayRate').addClass('arrow-top')
+                    } else {
+                        $('.storageWeightDayRate').addClass('arrow-bottom')
+                    }
+                    // 入库日环
+                    $('.storageWeightDayRate1').html(topData.storageWeightDayRate.toFixed(2) + '%')
+                        //金额日环
+                    $('.moneyDayCount').html((topData.storageMoneyDayRate).toFixed(2) + '%')
+                        // 日均金额
+                    $('.dayAverage').html('￥'+ topData.storageMoneyDayCount)
+                        // 日均金额
+                    $('.dayAverage1').html(topData.storageMoneyDayCount+'元')
+                        // 用户量
+                    $('.userCount').html(topData.userCount)
+                        // 日活跃量
+                    $('.userDayCount').html(topData.visitCount)
+                        // 订单数
+                    $('.orderCount').html(topData.orderCount)
+                        // 日订单
+                    $('.orderDayCount').html(topData.orderDayCount)
+                        // 入库重量
+                    $('.storageWeightCount').html(topData.storageWeightCount)
+                        // 日均入库
+                    $('.storageWeightDayCount').html(topData.storageWeightDayCount + 'kg')
+                    let arr = res.storageList
+                    arr.forEach((item, index) => {
+                        item.id = index + 1
+                            // item.storageMoneyWeekRate = `${item.storageMoneyWeekRate.toFixed(2)}%`
+                    })
+                    $('#table').bootstrapTable({
+                        pageSize: 5, //单页记录数
+                        pageNumber: 1, //初始化加载第一页
+                        pageList: [5, 10, 15],
+                        pagination: true, //是否分页
+                        paginationShowPageGo: true,
+                        columns: [{
+                            field: 'id',
+                            title: '排名',
+                            align: 'center'
+                        }, {
+                            field: 'sysStorageId',
+                            title: '仓库名',
+                            cellStyle: {
+                                css: {
+                                    "color": "#FFDD73"
+                                }
+                            },
+                            align: 'center'
+                        }, {
+                            field: 'storageWeightCount',
+                            title: '重量（kg）',
+                            align: 'center'
+                        }, {
+                            field: 'storageMoneyCount',
+                            title: '金额（元）',
+                            align: 'center'
+                        }, {
+                            field: 'storageMoneyWeekRate',
+                            title: '周涨幅',
+                            sortable: true,
+                            align: 'center',
+                            formatter: function(value, row, index) {
+                                console.log(value)
+                                var a = "";
+                                let newValue = value.toFixed(2) + '%'
+                                if (value > 0) {
+                                    var a = '<span style="color:#c12e2a;">' + newValue + "</span><image src='./jt1.png' class='jt1'></image>";
+                                } else if (value <= 0) {
+                                    var a = '<span style="color:#3e8f3e">' + newValue + "</span><image src='./jt2.png' class='jt1'></image>";
+                                }
+                                return a;
+                            },
+                        }],
+                        // onLoadError: function() {
+                        //     showTips("数据加载失败！");
+                        // },
+                        // onDblClickRow: function(row, $element) {
+                        //     console.log(row, $element)
+                        //     var id = row.ID;
+                        //     EditViewById(id, 'view');
+                        // },
+                        data: arr
+                    })
+                    console.log("type:"+type)
+                    if (type == 1) {
+                        selectData(tabIndex, zoyIndex, res)
+                        selectDataPie(pieIndex, res.itemtypeMap)
+                    }
+                    if (type == 2) {
+                        selectData(tabIndex, zoyIndex, res)
+                    }
+					
+                    if (type == 3) {
+                        if (pieIndex == 0) {
+                            $('.moneyCount1').html(statisticsData(res.itemtypeMap.all)+'元')
+                        }
+                        if (pieIndex == 1) {
+                            $('.moneyCount1').html(statisticsData(res.itemtypeMap.year)+'元')
+                        }
+                        if (pieIndex == 2) {
+                            $('.moneyCount1').html(statisticsData(res.itemtypeMap.month)+'元')
+                        }
+                       selectDataPie(pieIndex,res.itemtypeMap)
+                    }
+                }
+            })
+        }
+        // 统计价钱方法
+        function statisticsData(res) {
+            let arr = res.map(function(item, index) {
+                return item.storageMoney
+            })
+            let sum = arr.reduce(function(prev, cur, index, arr) {
+                return prev + cur;
+            })
+			console.log(sum.toFixed(2))
+            return sum.toFixed(2)
+        }
+        // 查询环形图数据
+        function selectDataPie(index, data) {
+		console.log("环形数据:"+index)
+            if (index == 0) {
+                data.all.forEach((item, index) => {
+                    item.value = item.storageMoney
+                    item.name = `${item.itemName} | ${((item.moneyRage)*100).toFixed(2)}%   ${item.storageWeight.toFixed(3)}kg/￥${item.storageMoney.toFixed(2)}`
+                })
+                option1.series[0].data = data.all
+            }
+            if (index == 1) {
+                console.log(data.year)
+                data.year.forEach((item, index) => {
+                    item.value = item.storageMoney
+                    item.name = `${item.itemName} | ${((item.moneyRage)*100).toFixed(2)}%   ${item.storageWeight.toFixed(3)}kg/￥${item.storageMoney.toFixed(2)}`
+                })
+                option1.series[0].data = data.year
+            }
+            if (index == 2) {
+                console.log(data.month)
+                data.month.forEach((item, index) => {
+                    item.value = item.storageMoney
+                    item.name = `${item.itemName} | ${((item.moneyRage)*100).toFixed(2)}%   ${item.storageWeight.toFixed(3)}kg/￥${item.storageMoney.toFixed(2)}`
+                })
+                option1.series[0].data = data.month
+            }
+            myChart1.clear();
+            // 使用刚指定的配置项和数据显示图表。
+            myChart1.setOption(option1);
+        }
+        // 查询柱状图数据
+        function selectData(tabIndex, zoyIndex, res) {
+            switch (tabIndex) {
+                case 0:
+                    if (zoyIndex == 0) {
+                        chartData('用户量', res.weekMap.userCountWeek)
+                    } else {
+                        chartData('用户量', res.monthMap.userCountMonth)
+                    }
+                    break;
+                case 1:
+                    if (zoyIndex == 0) {
+                        chartData('活跃量', res.weekMap.visitCountWeek)
+                    } else {
+                        chartData('活跃量', res.monthMap.visitCountMonth)
+                    }
+                    break;
+                case 2:
+                    if (zoyIndex == 0) {
+                        chartData('订单量', res.weekMap.orderCountWeek)
+                    } else {
+                        chartData('订单量', res.monthMap.orderCountMonth)
+                    }
+                    break;
+                case 3:
+                    if (zoyIndex == 0) {
+                        chartDataList([{
+                            name: '订单金额（单位：元）',
+                            data: res.weekMap.orderMoneyCountWeek
+                        }, {
+                            name: '入库金额（单位：元）',
+                            data: res.weekMap.storageMoneyCountWeek
+                        }])
+                    } else {
+                        chartDataList([{
+                            name: '订单金额（单位：元）',
+                            data: res.monthMap.orderMoneyCountMonth
+                        }, {
+                            name: '入库金额（单位：元）',
+                            data: res.monthMap.storageMoneyCountMonth
+                        }])
+                    }
+                    break;
+                case 4:
+                    if (zoyIndex == 0) {
+                        chartDataList([{
+                            name: '订单重量（单位：kg）',
+                            data: res.weekMap.orderWeightCountWeek
+                        }, {
+                            name: '入库重量（单位：kg）',
+                            data: res.weekMap.storageWeightCountWeek
+                        }])
+                    } else {
+                        chartDataList([{
+                            name: '订单重量（单位：kg）',
+                            data: res.monthMap.orderWeightCountMonth
+                        }, {
+                            name: '入库重量（单位：kg）',
+                            data: res.monthMap.storageWeightCountMonth
+                        }])
+                    }
+                    break;
+            }
+        }
+        // 单条数据处理
+        function chartData(name, data) {
+            let arr = data
+            let arr1 = []
+            let arr2 = [{
+                type: 'bar',
+                name: name,
+                barGap: 0,
+                itemStyle: {
+                    normal: {
+                        color: '#1890ff',
+                    }
+                },
+                data: []
+            }]
+            arr.forEach((item, index) => {
+                arr1.push(item.time)
+                arr2[0].data.push(Number(item.data))
+            });
+            option.xAxis.data = arr1.reverse()
+            if (arr2.length >= 2) {
+                arr2.splice(1, 1)
+            }
+            arr2[0].data.reverse()
+            option.series = arr2
+            myChart.clear();
+            myChart.setOption(option);
+        }
+        // 多条数据处理
+        function chartDataList(data) {
+            let arr = data
+            let arr1 = []
+            let arr2 = [{
+                type: 'bar',
+                name: data[0].name,
+                barGap: 0,
+                itemStyle: {
+                    normal: {　　　　　　　　　　　　
+                        color: '#1890ff',
+                    }
+                },
+                data: []
+            }, {
+                type: 'bar',
+                name: data[1].name,
+                barGap: 0,
+                itemStyle: {
+                    normal: {　　　　　　　　　　　　　　
+                        color: '#f8cd76',
+                    }
+                },
+                data: []
+            }]
+            arr[0].data.forEach((item, index) => {
+                arr1.push(item.time)
+                arr2[0].data.push(Number(item.data))
+            });
+            arr[1].data.forEach((item, index) => {
+                arr2[1].data.push(Number(item.data))
+            });
+            option.xAxis.data = arr1.reverse()
+            arr2[0].data.reverse()
+            arr2[1].data.reverse()
+            option.series = arr2
+            myChart.clear();
+            myChart.setOption(option);
+        }
+    })
+</script>

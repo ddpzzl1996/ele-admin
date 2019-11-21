@@ -5,12 +5,16 @@ import { resetRouter } from '@/router'
 const state = {
   token: getToken(),
   name: '',
-  avatar: ''
+  avatar: '',
+  userId: ''
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_USERID: (state, id) => {
+    state.userId = id
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -21,47 +25,49 @@ const mutations = {
 }
 
 const actions = {
-  // user login
+  // 用户登录
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
+      login({ code: username.trim(), password: password }).then(response => {
+        const data = response.data
         commit('SET_TOKEN', data.token)
+        sessionStorage.setItem('userId', data.userId)
+        commit('SET_USERID', data.userId)
         setToken(data.token)
         resolve()
       }).catch(error => {
+        console.log(error)
         reject(error)
       })
     })
   },
 
-  // get user info
+  // 获取用户信息
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
+      getInfo({ id: sessionStorage.getItem('userId') }).then(response => {
         const { data } = response
-
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('验证失败，请重新登录.')
         }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+        console.log(data, '用户信息')
+        // commit('SET_ROUTER', asnycRoutes)
+        commit('SET_NAME', data.user.name)
+        // commit('SET_AVATAR', avatar)
+        resolve(data.menu[0].children)
       }).catch(error => {
         reject(error)
       })
     })
   },
 
-  // user logout
+  // 用户注销
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
+        commit('SET_NAME', '')
         removeToken()
         resetRouter()
         resolve()
@@ -71,7 +77,7 @@ const actions = {
     })
   },
 
-  // remove token
+  // 移出token
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')

@@ -14,10 +14,10 @@ for (const key in asyncRoutes) {
 function assemblyRouter(menus, first) {
   const res = {}
   const menuConfig = asyncRoutes[menus.code]
-  console.log(menuConfig)
   if (!menuConfig && !first) {
     return
   }
+  res.redirect = '/' + menus.children[0].code
   res.path = first ? '/' + menus.code : menus.code
   // res.component = first ? Layout : menuConfig.component
   res.component = Layout
@@ -25,12 +25,9 @@ function assemblyRouter(menus, first) {
   if (menuConfig && menuConfig.hidden) {
     res.hidden = menuConfig.hidden
   }
-  // if (menuConfig) {
-  //   icon = menuConfig.icon
-  // }
   res.meta = {
     title: menus.name || menuConfig.name,
-    // icon: icon || 'user',
+    icon: menus.code,
     menuCode: menus.code
   }
   return res
@@ -42,7 +39,6 @@ function assemblyRouter(menus, first) {
  * @param roles
  */
 export function filterAsyncRoutes(routes) {
-  console.log(routes, '所有路由')
   const res = []
   routes.forEach(route => {
     const tmp = { ...route }
@@ -52,9 +48,9 @@ export function filterAsyncRoutes(routes) {
     if (menuMap) {
       // 获取二级路由 如果二级路由有的话
       if (tmp.children.length) {
-        menuMap.children = filterAsyncRouterTwo(tmp.code, tmp.children, false)
+        menuMap.children = filterAsyncRouterTwo(tmp.children, false)
         // 重定向去一级菜单的第一个二级菜单
-        menuMap.redirect = menuMap.path + '/' + tmp.children[0].code
+        menuMap.redirect = '/' + tmp.children[0].code
       }
       res.push(menuMap)
     }
@@ -66,17 +62,48 @@ export function filterAsyncRoutes(routes) {
  * @param routes asyncRouterMap
  * @param roles
  */
-function filterAsyncRouterTwo(menuIdOne, routes, first) {
+function filterAsyncRouterTwo(routes, first) {
   const res = []
   routes.forEach(route => {
     const tmp = { ...route }
     // 解析二级路由
     const menuMap = assemblyRouterTwo(tmp, true)
+    if (menuMap.name == 'promoterData') {
+      console.log(menuMap, '二级路由')
+    }
+    // if (menuMap.children) {
+    //   // 有三级路由
+    //   menuMap.children.forEach((item) => {
+    //     const resT = {}
+    //     resT.path = item.path
+    //     resT.component = item.component || Layout
+    //     resT.name = item.name
+    //     // resT.hidden = item.hidden
+    //     resT.meta = {
+    //       title: item.title,
+    //       menuCode: item.path
+    //     }
+    //     // res.children = resT
+    //   })
+    //   // menuMap.children = null
+    // }
     res.push(menuMap)
   })
   return res
 }
-
+// 三级路由及以后处理
+// function assemblyRouteThree(menus) {
+//   // 三级路由以后还有路由
+//   if (menus.children) {
+//     menus.children.forEach(route => {
+//       const tmp = { ...route }
+//       console.log(tmp, '三级路由')
+//       // 解析三级路由
+//       menus.children = assemblyRouteThree(tmp, true)
+//     })
+//   }
+//   return menus
+// }
 /**
  * 根据后台返回数据组装菜单
  * @param menus
@@ -90,20 +117,14 @@ function assemblyRouterTwo(menus, first) {
   }
   res.path = '/' + menus.code
   if (menuConfig) {
-    console.log(Layout)
     res.component = menuConfig.component || Layout
   }
   res.name = menus.code || menuConfig.name
   if (menuConfig && menuConfig.hidden) {
     res.hidden = menuConfig.hidden
   }
-  // 递归
   if (menuConfig && menuConfig.children) {
-    menuConfig.children.forEach(route => {
-      const tmp = { ...route }
-      // 解析三级路由
-      res.children = assemblyRouterTwo(tmp, true)
-    })
+    res.children = menuConfig.children
   }
   res.meta = {
     title: menus.name || menuConfig.name,
@@ -111,6 +132,7 @@ function assemblyRouterTwo(menus, first) {
   }
   return res
 }
+
 const state = {
   routes: [],
   addRoutes: []
@@ -127,6 +149,7 @@ const actions = {
   generateRoutes({ commit }, roles) {
     // roles为后台返回路由列表
     return new Promise(resolve => {
+      console.log(roles)
       const accessedRouters = filterAsyncRoutes(roles)
       // 过滤所有动态路由
       commit('SET_ROUTES', accessedRouters)

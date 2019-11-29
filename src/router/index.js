@@ -66,7 +66,13 @@ export const asyncRoutes = {
   // 基础管理
   basicManager: {
     name: '基础管理',
+    redirect: '/UserManager',
     meta: { title: '基础管理', icon: 'example' }
+  },
+  // 数据统计
+  NewDataStatic: {
+    name: '数据统计',
+    meta: { title: '数据统计', icon: 'NewDataStatic' }
   },
   // 用户管理
   UserManager: {
@@ -75,6 +81,142 @@ export const asyncRoutes = {
     redirect: '/UserManager',
     meta: { title: '用户管理', icon: 'userManager' },
     component: () => import('@/views/userManager/index')
+  },
+  // 推广员统计
+  promoterData: {
+    name: 'promoterData',
+    path: '/promoterData',
+    redirect: '/promoterData',
+    alwaysShow: true,
+    meta: { title: '推广员统计', icon: 'ProStatistics' },
+    component: () => import('@/views/promoterData/index'),
+    // 明细
+    children: [{
+      path: '/PromotionDetails/:id',
+      name: 'PromotionDetails',
+      hidden: true,
+      title: '推广明细',
+      component: () => import('@/views/promotionDetails/index')
+    }]
+  },
+  // 回收员统计
+  CollectorList: {
+    name: 'collectorList',
+    path: '/collectorList',
+    redirect: '/collectorList',
+    alwaysShow: true,
+    meta: { title: '回收员统计', icon: 'collectorList' },
+    component: () => import('@/views/collectorList/index'),
+    // 明细
+    children: [{
+      path: '/CollectorDetails/:id',
+      name: 'CollectorDetails',
+      hidden: true,
+      title: '推广明细',
+      component: () => import('@/views/collectorDetails/index')
+    }]
+  },
+  // 入库员统计
+  StorageData: {
+    name: 'StorageData',
+    path: '/StorageData',
+    redirect: '/StorageData',
+    alwaysShow: true,
+    meta: { title: '回收员统计', icon: 'StorageData' },
+    component: () => import('@/views/storageData/index'),
+    // 明细
+    children: [{
+      path: '/StorageDetails/:id',
+      name: 'StorageDetails',
+      hidden: true,
+      title: '推广明细',
+      component: () => import('@/views/storageDetails/index')
+    }]
+  },
+  // 仓库数据
+  SysStorageData: {
+    name: 'SysStorageData',
+    path: '/SysStorageData',
+    redirect: '/SysStorageData',
+    alwaysShow: true,
+    meta: { title: '仓库数据', icon: 'SysStorageData' },
+    component: () => import('@/views/sysStorageData/index'),
+    // 明细
+    children: [{
+      path: '/sysStorageDetails/:id',
+      name: 'sysStorageDetails',
+      hidden: true,
+      title: '推广明细',
+      component: () => import('@/views/sysStorageDetails/index')
+    }]
+  },
+  // 分类数据
+  queryTypeData: {
+    name: 'queryTypeData',
+    path: '/queryTypeData',
+    redirect: '/queryTypeData',
+    alwaysShow: true,
+    meta: { title: '分类数据', icon: 'queryTypeData' },
+    component: () => import('@/views/queryTypeData/index')
+  },
+  // 普通用户数据
+  CuserData: {
+    name: 'CuserData',
+    path: '/CuserData',
+    redirect: '/CuserData',
+    alwaysShow: true,
+    meta: { title: '普通用户数据', icon: 'CuserData' },
+    component: () => import('@/views/cuserData/index'),
+    // 明细
+    children: [{
+      path: '/CuserDetails/:id',
+      name: 'CuserDetails',
+      hidden: true,
+      title: '推广明细',
+      component: () => import('@/views/cuserDetails/index')
+    }]
+  },
+  // 用户订单
+  OrderData: {
+    name: 'OrderData',
+    path: '/OrderData',
+    redirect: '/OrderData',
+    alwaysShow: true,
+    meta: { title: '普通用户数据', icon: 'OrderData' },
+    component: () => import('@/views/orderData/index'),
+    // 明细
+    children: [{
+      path: '/OrderDetails/:id',
+      name: 'OrderDetails',
+      hidden: true,
+      title: '订单明细',
+      component: () => import('@/views/orderDetails/index')
+    }]
+  },
+  // 入库订单
+  StorageOrder: {
+    name: 'StorageOrder',
+    path: '/StorageOrder',
+    redirect: '/StorageOrder',
+    alwaysShow: true,
+    meta: { title: '入库订单', icon: 'OrderData' },
+    component: () => import('@/views/storageOrder/index')
+    // 明细
+    // children: [{
+    //   path: '/OrderDetails/:id',
+    //   name: 'OrderDetails',
+    //   hidden: true,
+    //   title: '订单明细',
+    //   component: () => import('@/views/orderDetails/index')
+    // }]
+  },
+  // 客户统计
+  CustomerManager: {
+    name: 'CustomerManager',
+    path: '/CustomerManager',
+    redirect: '/CustomerManager',
+    meta: { title: '客户统计', icon: 'CustomerManager' },
+    component: () => import('@/views/customerManager/index')
   }
 }
 

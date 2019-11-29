@@ -1,5 +1,6 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import Cookies from 'js-cookie'
 import { resetRouter } from '@/router'
 
 const state = {
@@ -33,6 +34,7 @@ const actions = {
         const data = response.data
         commit('SET_TOKEN', data.token)
         sessionStorage.setItem('userId', data.userId)
+        Cookies.set('JSESSIONID', data.jsessionid)
         commit('SET_USERID', data.userId)
         setToken(data.token)
         resolve()

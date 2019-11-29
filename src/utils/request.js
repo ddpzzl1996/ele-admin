@@ -1,16 +1,19 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import Cookies from 'js-cookie'
+// import { getToken } from '@/utils/auth'
 // import { getToken } from '@/utils/auth'
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 // create an axios instance
+axios.defaults.withCredentials = true
 const service = axios.create({
   // baseURL: 'http://192.168.0.100/', // 测试服务器 // url = base url + request url
   baseURL: 'http://192.168.0.53:8080/', // 沈冰洋服务器 // url = base url + request url
   // baseURL: '', // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 15000 // request timeout
+  // withCredentials: true
   // transformRequest: [function(data) {
   //   let ret = ''
   //   let num = 0
@@ -30,10 +33,10 @@ service.interceptors.request.use(
   config => {
     config.headers['Content-Type'] = 'application/json;charset=UTF-8'
     // config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    if (getToken()) {
-      // 如果已经有了token则把token传到头部
-      config.headers['token'] = getToken()
+    if (Cookies.get('JSESSIONID')) {
+      config.headers['JSESSIONID'] = `JSESSIONID=${Cookies.get('JSESSIONID')}`
     }
+
     // config.headers['token'] = 'e94cdd818faa4715890a0c3011fe390a'
     // do something before request is sent
     // if (store.getters.token) {
@@ -64,7 +67,6 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    console.log(response)
     const res = response.data
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== 0) {

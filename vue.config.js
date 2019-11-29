@@ -40,6 +40,7 @@ module.exports = {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       '^/': {
+        ws: false, // proxy websockets
         target: `http://192.168.0.100/`,
         changeOrigin: true
         // pathRewrite: {
@@ -55,7 +56,8 @@ module.exports = {
     name: name,
     resolve: {
       alias: {
-        '@': resolve('src')
+        '@': resolve('src'),
+        'vue$': 'vue/dist/vue.esm.js' // 用 webpack 1 时需用 'vue/dist/vue.common.js'
       }
     }
   },

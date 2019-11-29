@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>APP管理@3x</title>
+    <desc>Created with Sketch.</desc>
+    <g id="APP管理" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" x="0" y="0" width="36" height="36"></rect>
+        <path d="M18.9014003,6.05678566 L29.9004139,12.442186 C29.9620608,12.4779746 30,12.5438692 30,12.6151514 L30,25.3848486 C30,25.4561308 29.9620608,25.5220254 29.9004139,25.557814 L18.9014003,31.9432143 C18.8407069,31.9784494 18.7659861,31.9792947 18.7045112,31.9454417 L7.10352478,25.557009 C7.03966625,25.5218434 7,25.454717 7,25.3818162 L7,12.6181838 C7,12.545283 7.03966625,12.4781566 7.10352478,12.442991 L18.7045112,6.05455828 C18.7659861,6.02070525 18.8407069,6.02155056 18.9014003,6.05678566 Z" id="多边形" stroke="#FFFFFF" stroke-width="1.5"></path>
+        <path d="M18.5,19 L18.5,27" id="路径-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></path>
+        <path d="M14.988698,12.4232701 L14.988698,20.1922433" id="路径-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" transform="translate(14.988698, 16.307757) rotate(120.000000) translate(-14.988698, -16.307757) "></path>
+        <path d="M22.5828515,12.4232701 L22.5828515,20.1922433" id="路径-3" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" transform="translate(22.582852, 16.307757) rotate(240.000000) translate(-22.582852, -16.307757) "></path>
+    </g>
+</svg>

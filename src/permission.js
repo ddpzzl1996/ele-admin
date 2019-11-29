@@ -31,12 +31,13 @@ router.beforeEach(async(to, from, next) => {
           // 获取用户信息
           // await store.dispatch('user/getInfo')
           const roles = await store.dispatch('user/getInfo')
+          console.log(roles, '后台返回菜单')
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-          console.log(accessRoutes, '处理完成之后路由')
           const route404 = { path: '*', redirect: '/404', hidden: true }
           accessRoutes.push(route404)
+          console.log('最后添加路由', accessRoutes)
           router.addRoutes(accessRoutes)
-          next()
+          next(to.path)
         } catch (error) {
           // 移除token并转到登录页以重新登录
           await store.dispatch('user/resetToken')
